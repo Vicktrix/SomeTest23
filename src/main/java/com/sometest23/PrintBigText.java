@@ -4,20 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PrintBigText{
-    static Map<String, String[]> symbol = MySymbol.map;
+    static Map<Character, String[]> mySymbol = MySymbol.getMap();
     public static void main(String[] args){
-        System.out.println("Some test");
-        String[] A = symbol.get("A");
-        String[] B = symbol.get("B");
-        String[] H = symbol.get("H");
-        String[] V = symbol.get("V");
-        String[] O = symbol.get("O");
-        String[] I = symbol.get("I");
-        String[] T = symbol.get("T");
-        String[] R = symbol.get("R");
-        String[] K = symbol.get("K");
-        String[] J = symbol.get("J");
-        System.out.println("alphabet size = "+symbol.size());
+        System.out.println("Some test with new map ");
+        String[] A = mySymbol.get('A');
+        String[] H = mySymbol.get('H');
+        String[] J = mySymbol.get('J');
+        String[] B = mySymbol.get('B');
+        String[] V = mySymbol.get('V');
+        String[] I = mySymbol.get('I');
+        String[] K = mySymbol.get('K');
+        String[] T = mySymbol.get('T');
+        String[] O = mySymbol.get('O');
+        String[] R = mySymbol.get('R');
+        System.out.println("alphabet size = "+mySymbol.size());
         System.out.println("Some test for single symbol");
         print(A);
         print(B);
@@ -26,7 +26,26 @@ public class PrintBigText{
         print(A, H, O, J);
         print(V, I, K, T, O, R);
         System.out.println("My map is : ");
-        print(symbol.values().toArray(String[][]::new));
+        print(mySymbol.values().toArray(String[][]::new));
+        MySymbol.replaceMap('X');
+        System.out.println("alphabet size = "+mySymbol.size());
+        print(mySymbol.values().toArray(String[][]::new));
+        V = mySymbol.get('V');
+        I = mySymbol.get('I');
+        K = mySymbol.get('K');
+        T = mySymbol.get('T');
+        O = mySymbol.get('O');
+        R = mySymbol.get('R');
+        print(V, I, K, T, O, R);   
+        MySymbol.replaceMap('7');
+        print(mySymbol.values().toArray(String[][]::new));
+        V = mySymbol.get('V');
+        I = mySymbol.get('I');
+        K = mySymbol.get('K');
+        T = mySymbol.get('T');
+        O = mySymbol.get('O');
+        R = mySymbol.get('R');
+        print(V, I, K, T, O, R);
     }
     static void print(String[]... full) {
         for(int j=0; j<6; j++) {
@@ -36,218 +55,181 @@ public class PrintBigText{
         }
         System.out.println();
     }
-    
     static class MySymbol {
-        static Map<String, String[]> map = new HashMap<>();
-        static {
-        String A = """
+        private static Map<Character, String[]> map = new HashMap<>();
+        private static char currentValue = '+';
+
+        public static Map<Character, String[]> getMap() {
+            if(map.size() != 26) fillMap();
+            return map;
+        }
+        private static void fillMap() {
+            for(int i='A', j=0; i<='Z';i++, j++) 
+                map.put(Character.valueOf((char)i),template[j].split("\n"));
+        }
+        public static void replaceMap(char ch) {
+            for(int i=0; i<template.length; i++)
+                template[i] = template[i].replace(currentValue,ch);
+            currentValue = ch;
+            fillMap();
+        }
+        private static String[] template = {"""
     
       +   \s
      + +  \s
     +++++ \s
     +   + \s
-    +   + \s""";
-        String B = """
+    +   + \s""", """
     
     ++++  \s
     +   + \s
     ++++  \s
     +   + \s
-    +++++ \s""";
-        String C = """
+    +++++ \s""","""
                    
      +++  \s
     +   + \s
     +     \s
     +   + \s
-     +++  \s""";
-        String D = """
+     +++  \s""","""
                    
     ++++  \s
     +  ++ \s
     +   + \s
     +   + \s
-    ++++  \s""";
-        String E = """
+    ++++  \s""","""
                    
     +++++ \s
     +     \s
     ++++  \s
     +     \s
-    +++++ \s""";
-        String F = """
+    +++++ \s""","""
                    
     +++++ \s
     +     \s
     ++++  \s
     +     \s
-    +     \s""";        
-        String G = """
+    +     \s""","""
                    
      ++++ \s
     +     \s
     +  ++ \s
     +   + \s
-     ++++ \s""";        
-        String H = """
+     ++++ \s""","""
                    
     +   + \s
     +   + \s
     +++++ \s
     +   + \s
-    +   + \s""";        
-        String I = """
+    +   + \s""","""
                    
     +++ \s
      +  \s
      +  \s
      +  \s
-    +++ \s""";        
-        String J = """
+    +++ \s""","""
                    
       ++ \s
        + \s
        + \s
     +  + \s
-     ++  \s""";        
-        String K = """
+     ++  \s""","""
                    
     +  + \s
     + +  \s
     ++   \s
     + +  \s
-    +  + \s""";        
-        String L = """
+    +  + \s""","""
                    
     +     \s
     +     \s
     +     \s
     +   + \s
-    +++++ \s""";        
-        String M = """
+    +++++ \s""","""
                    
     ++   ++ \s
     + + + + \s
     +  +  + \s
     +     + \s
-    +     + \s""";     
-        String N = """
+    +     + \s""","""
                    
     +   + \s
     ++  + \s
     + + + \s
     +  ++ \s
-    +   + \s""";        
-        String O = """
+    +   + \s""","""
                    
      +++  \s
     +   + \s
     +   + \s
     +   + \s
-     +++  \s""";        
-        String P = """
+     +++  \s""","""
                    
     ++++  \s
     +   + \s
     ++++  \s
     +     \s
-    +     \s""";        
-        String Q = """
+    +     \s""","""
                    
      ++++  \s
     +    + \s
     +  + + \s
     +   ++ \s
-     +++ + \s""";        
-        String R = """
+     +++ + \s""","""
                    
     ++++  \s
     +   + \s
     ++++  \s
     +  +  \s
-    +   + \s""";        
-        String S = """
+    +   + \s""","""
                    
      ++++ \s
     +     \s
      +++  \s
         + \s
-    ++++  \s""";        
-        String T = """
+    ++++  \s""","""
                    
     +++++ \s
       +   \s
       +   \s
       +   \s
-      +   \s""";       
-        String U = """
+      +   \s""","""
                    
     +   + \s
     +   + \s
     +   + \s
     +   + \s
-     +++  \s""";        
-        String V = """
+     +++  \s""","""
                    
     +   + \s
     +   + \s
     +   + \s
      + +  \s
-      +   \s""";        
-        String W = """
+      +   \s""","""
                    
     +     + \s
     +  +  + \s
     + ++ +  \s
     ++ ++   \s
-    +  +    \s""";        
-        String X = """
+    +  +    \s""","""
                    
     +   +  \s
      + +   \s
       +    \s
      + +   \s
-    +   +  \s""";        
-        String Y = """
+    +   +  \s""","""
                    
     +   + \s
     +   + \s
      + +  \s
       +   \s
-      +   \s""";        
-        String Z = """
+      +   \s""","""
                    
     +++++ \s
        +  \s
       +   \s
      +    \s
-    +++++ \s""";        
-        map.put("A",A.split("\n"));
-        map.put("B",B.split("\n"));
-        map.put("C",C.split("\n"));
-        map.put("D",D.split("\n"));
-        map.put("E",E.split("\n"));
-        map.put("F",F.split("\n"));
-        map.put("G",G.split("\n"));
-        map.put("H",H.split("\n"));
-        map.put("I",I.split("\n"));
-        map.put("J",J.split("\n"));
-        map.put("K",K.split("\n"));
-        map.put("L",L.split("\n"));
-        map.put("M",M.split("\n"));
-        map.put("N",N.split("\n"));
-        map.put("O",O.split("\n"));
-        map.put("P",P.split("\n"));
-        map.put("Q",Q.split("\n"));
-        map.put("R",R.split("\n"));
-        map.put("S",S.split("\n"));
-        map.put("T",T.split("\n"));
-        map.put("U",U.split("\n"));
-        map.put("V",V.split("\n"));
-        map.put("W",W.split("\n"));
-        map.put("X",X.split("\n"));
-        map.put("Y",Y.split("\n"));
-        map.put("Z",Z.split("\n"));
-        }
+    +++++ \s"""            
+        };
     }
 }
